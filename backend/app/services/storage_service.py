@@ -91,3 +91,27 @@ def read_analysis_metadata(
             return json.load(file)
     except (OSError, json.JSONDecodeError):
         return None
+
+
+
+def list_analysis_metadata() -> list[dict]:
+    """Return metadata for all analyses that have a readable record."""
+    if not ANALYSES_DIR.is_dir():
+        return []
+
+    analyses = []
+
+    for analysis_dir in ANALYSES_DIR.iterdir():
+        if not analysis_dir.is_dir():
+            continue
+
+        metadata = read_analysis_metadata(analysis_dir.name)
+
+        if metadata is not None:
+            analyses.append(metadata)
+
+    return sorted(
+        analyses,
+        key=lambda item: item.get("created_at", ""),
+        reverse=True,
+    )

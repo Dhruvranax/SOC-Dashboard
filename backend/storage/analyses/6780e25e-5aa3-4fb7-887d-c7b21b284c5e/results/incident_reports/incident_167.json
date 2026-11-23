@@ -1,0 +1,85 @@
+{
+    "report_generated_at": "2026-11-23T15:34:44.139128+00:00",
+    "incident_id": "167",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 697,
+        "unique_alerts": 36,
+        "categories": [
+            "Impact",
+            "InitialAccess"
+        ],
+        "detection_rules": [
+            "Impact Activity",
+            "Initial Access Activity"
+        ],
+        "mitre_techniques": []
+    },
+    "timeline": {
+        "first_seen": "2024-06-09T04:08:47Z",
+        "last_seen": "2024-06-09T04:08:47Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "10",
+            "17"
+        ],
+        "entity_types": [
+            "Ip",
+            "User"
+        ],
+        "evidence_roles": [
+            "Impacted",
+            "Related"
+        ],
+        "detector_ids": [
+            "22",
+            "25"
+        ],
+        "alert_ids": [
+            "1043",
+            "1057",
+            "1061",
+            "1098",
+            "1108",
+            "14363",
+            "1496705",
+            "1677",
+            "1687",
+            "1757",
+            "1806",
+            "1830",
+            "1938",
+            "2041",
+            "2159",
+            "2267",
+            "2278",
+            "2798",
+            "4470",
+            "614",
+            "644",
+            "652",
+            "710",
+            "713",
+            "732",
+            "738",
+            "748",
+            "768",
+            "772",
+            "782",
+            "783",
+            "786",
+            "810",
+            "873",
+            "977",
+            "981"
+        ]
+    },
+    "rule_descriptions": [
+        "Alert associated with an initial access technique.",
+        "Alert associated with potential impact activity."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}
