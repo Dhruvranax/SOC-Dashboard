@@ -1,10 +1,16 @@
+
 # Virtual environments
 venv/
 .venv/
 
-# Python cache
+# Python cache and test/tool caches
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
 # Jupyter
 .ipynb_checkpoints/
@@ -12,16 +18,30 @@ __pycache__/
 # IDE
 .vscode/
 
-# Raw and processed datasets
-Dataset/raw/*
+# Frontend dependencies and build output
+node_modules/
+dist/
+build/
+
+# Local datasets
+Dataset/raw/
+Dataset/dataset_parts/
 Dataset/processed/*.csv
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+*.pem
+*.key
 
 # Large generated SOC outputs
 reports/soc_alerts/soc_alerts.csv
 reports/soc_alerts/soc_alerts.jsonl
 reports/incident_reports/generated/incident_reports_summary.csv
 
-# Temporary files
+# Temporary files and logs
 *.tmp
 *.log
 
