@@ -1,0 +1,4 @@
+Value,RecordCount,UniqueIncidents
+BenignPositive,431693,25299
+FalsePositive,150710,10718
+TruePositive,32881,2276

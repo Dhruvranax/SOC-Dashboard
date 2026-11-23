@@ -1,0 +1,14 @@
+Value,RecordCount,UniqueIncidents
+MailMessage,267884,24162
+File,154811,21689
+User,111034,37600
+Machine,34257,10923
+Ip,33651,11009
+CloudApplication,6737,4440
+Mailbox,4079,1489
+Url,2255,459
+AzureResource,284,190
+GenericEntity,148,131
+Process,116,69
+MailCluster,22,17
+BlobContainer,6,6

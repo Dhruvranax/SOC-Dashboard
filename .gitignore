@@ -1,0 +1,30 @@
+# Virtual environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+
+# Raw and processed datasets
+Dataset/raw/*
+Dataset/processed/*.csv
+
+# Large generated SOC outputs
+reports/soc_alerts/soc_alerts.csv
+reports/soc_alerts/soc_alerts.jsonl
+reports/incident_reports/generated/incident_reports_summary.csv
+
+# Temporary files
+*.tmp
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

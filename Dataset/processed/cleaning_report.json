@@ -1,0 +1,318 @@
+{
+    "source_file": "D:\\Microsoft-SOC-Project\\Dataset\\raw\\GUIDE_Test.csv",
+    "output_file": "D:\\Microsoft-SOC-Project\\Dataset\\processed\\GUIDE_Test_cleaned.csv",
+    "chunk_size": 100000,
+    "total_rows": 4147992,
+    "total_columns": 46,
+    "invalid_timestamps": 0,
+    "timestamp_min_utc": "2023-11-22T15:55:05+00:00",
+    "timestamp_max_utc": "2024-06-17T13:30:09+00:00",
+    "missing_values": {
+        "Id": 0,
+        "OrgId": 0,
+        "IncidentId": 0,
+        "AlertId": 0,
+        "Timestamp": 0,
+        "DetectorId": 0,
+        "AlertTitle": 0,
+        "Category": 0,
+        "MitreTechniques": 2307104,
+        "IncidentGrade": 0,
+        "ActionGrouped": 4146079,
+        "ActionGranular": 4146079,
+        "EntityType": 0,
+        "EvidenceRole": 0,
+        "DeviceId": 0,
+        "Sha256": 0,
+        "IpAddress": 0,
+        "Url": 0,
+        "AccountSid": 0,
+        "AccountUpn": 0,
+        "AccountObjectId": 0,
+        "AccountName": 0,
+        "DeviceName": 0,
+        "NetworkMessageId": 0,
+        "EmailClusterId": 4106285,
+        "RegistryKey": 0,
+        "RegistryValueName": 0,
+        "RegistryValueData": 0,
+        "ApplicationId": 0,
+        "ApplicationName": 0,
+        "OAuthApplicationId": 0,
+        "ThreatFamily": 4116614,
+        "FileName": 0,
+        "FolderPath": 0,
+        "ResourceIdName": 0,
+        "ResourceType": 4144998,
+        "Roles": 4039317,
+        "OSFamily": 0,
+        "OSVersion": 0,
+        "AntispamDirection": 4071481,
+        "SuspicionLevel": 3498157,
+        "LastVerdict": 3155260,
+        "CountryCode": 0,
+        "State": 0,
+        "City": 0,
+        "Usage": 0
+    },
+    "incident_grades": {
+        "BenignPositive": 1752940,
+        "TruePositive": 1492354,
+        "FalsePositive": 902698
+    },
+    "categories": {
+        "InitialAccess": 1952969,
+        "Exfiltration": 615284,
+        "SuspiciousActivity": 440093,
+        "CommandAndControl": 357179,
+        "Impact": 307810,
+        "CredentialAccess": 130196,
+        "Execution": 115658,
+        "Malware": 71593,
+        "Discovery": 63633,
+        "Persistence": 29075,
+        "DefenseEvasion": 21611,
+        "LateralMovement": 19426,
+        "UnwantedSoftware": 7496,
+        "Collection": 6272,
+        "Ransomware": 5605,
+        "PrivilegeEscalation": 1555,
+        "Exploit": 1653,
+        "CredentialStealing": 873,
+        "WebExploit": 11
+    },
+    "columns": [
+        "Id",
+        "OrgId",
+        "IncidentId",
+        "AlertId",
+        "Timestamp",
+        "DetectorId",
+        "AlertTitle",
+        "Category",
+        "MitreTechniques",
+        "IncidentGrade",
+        "ActionGrouped",
+        "ActionGranular",
+        "EntityType",
+        "EvidenceRole",
+        "DeviceId",
+        "Sha256",
+        "IpAddress",
+        "Url",
+        "AccountSid",
+        "AccountUpn",
+        "AccountObjectId",
+        "AccountName",
+        "DeviceName",
+        "NetworkMessageId",
+        "EmailClusterId",
+        "RegistryKey",
+        "RegistryValueName",
+        "RegistryValueData",
+        "ApplicationId",
+        "ApplicationName",
+        "OAuthApplicationId",
+        "ThreatFamily",
+        "FileName",
+        "FolderPath",
+        "ResourceIdName",
+        "ResourceType",
+        "Roles",
+        "OSFamily",
+        "OSVersion",
+        "AntispamDirection",
+        "SuspicionLevel",
+        "LastVerdict",
+        "CountryCode",
+        "State",
+        "City",
+        "Usage"
+    ],
+    "missing_value_report": {
+        "Id": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "OrgId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "IncidentId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AlertId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "Timestamp": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "DetectorId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AlertTitle": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "Category": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "MitreTechniques": {
+            "count": 2307104,
+            "percentage": 55.62
+        },
+        "IncidentGrade": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ActionGrouped": {
+            "count": 4146079,
+            "percentage": 99.95
+        },
+        "ActionGranular": {
+            "count": 4146079,
+            "percentage": 99.95
+        },
+        "EntityType": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "EvidenceRole": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "DeviceId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "Sha256": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "IpAddress": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "Url": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AccountSid": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AccountUpn": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AccountObjectId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AccountName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "DeviceName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "NetworkMessageId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "EmailClusterId": {
+            "count": 4106285,
+            "percentage": 98.99
+        },
+        "RegistryKey": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "RegistryValueName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "RegistryValueData": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ApplicationId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ApplicationName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "OAuthApplicationId": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ThreatFamily": {
+            "count": 4116614,
+            "percentage": 99.24
+        },
+        "FileName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "FolderPath": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ResourceIdName": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "ResourceType": {
+            "count": 4144998,
+            "percentage": 99.93
+        },
+        "Roles": {
+            "count": 4039317,
+            "percentage": 97.38
+        },
+        "OSFamily": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "OSVersion": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "AntispamDirection": {
+            "count": 4071481,
+            "percentage": 98.16
+        },
+        "SuspicionLevel": {
+            "count": 3498157,
+            "percentage": 84.33
+        },
+        "LastVerdict": {
+            "count": 3155260,
+            "percentage": 76.07
+        },
+        "CountryCode": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "State": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "City": {
+            "count": 0,
+            "percentage": 0.0
+        },
+        "Usage": {
+            "count": 0,
+            "percentage": 0.0
+        }
+    }
+}
