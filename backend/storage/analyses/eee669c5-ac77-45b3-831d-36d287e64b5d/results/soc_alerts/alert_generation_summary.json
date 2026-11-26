@@ -1,0 +1,14 @@
+{
+    "TotalAlertsGenerated": 76625,
+    "SeverityDistribution": {
+        "Critical": 43105,
+        "High": 21187,
+        "Medium": 12333
+    },
+    "OutputFiles": [
+        "soc_alerts.csv",
+        "soc_alerts.jsonl"
+    ],
+    "RiskScoreMeaning": "Heuristic prioritization score, not probability of compromise",
+    "Status": "Generated - pending analyst review"
+}

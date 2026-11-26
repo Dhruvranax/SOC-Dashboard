@@ -1,0 +1,93 @@
+{
+    "report_generated_at": "2026-11-24T17:19:21.703401+00:00",
+    "incident_id": "57",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 726,
+        "unique_alerts": 23,
+        "categories": [
+            "Impact",
+            "Malware"
+        ],
+        "detection_rules": [
+            "Impact Activity",
+            "Malware-Related Activity",
+            "Obfuscated Files or Information"
+        ],
+        "mitre_techniques": [
+            "T1027"
+        ]
+    },
+    "timeline": {
+        "first_seen": "2024-05-22T06:51:57Z",
+        "last_seen": "2024-06-03T11:45:20Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "1121",
+            "130",
+            "178",
+            "227",
+            "249",
+            "28",
+            "394",
+            "494",
+            "51",
+            "541",
+            "634",
+            "67",
+            "680",
+            "685",
+            "70",
+            "703",
+            "723",
+            "735",
+            "807",
+            "824"
+        ],
+        "entity_types": [
+            "Ip",
+            "Process"
+        ],
+        "evidence_roles": [
+            "Related"
+        ],
+        "detector_ids": [
+            "12",
+            "43"
+        ],
+        "alert_ids": [
+            "1102566",
+            "150",
+            "163",
+            "1681",
+            "173",
+            "217",
+            "253",
+            "255",
+            "577",
+            "583",
+            "595",
+            "603",
+            "613",
+            "62",
+            "633",
+            "654",
+            "720",
+            "76",
+            "77",
+            "80",
+            "844",
+            "92",
+            "972"
+        ]
+    },
+    "rule_descriptions": [
+        "Activity associated with obfuscation.",
+        "Alert associated with potential impact activity.",
+        "Alert categorized as malware-related."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}

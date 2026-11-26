@@ -1,0 +1,132 @@
+{
+    "report_generated_at": "2026-11-23T15:34:44.053273+00:00",
+    "incident_id": "13",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 789,
+        "unique_alerts": 64,
+        "categories": [
+            "CredentialAccess",
+            "InitialAccess"
+        ],
+        "detection_rules": [
+            "Credential Access Activity",
+            "Initial Access Activity",
+            "Password Guessing",
+            "Phishing Activity",
+            "Spearphishing Link"
+        ],
+        "mitre_techniques": [
+            "T1110.001",
+            "T1566",
+            "T1566.002"
+        ]
+    },
+    "timeline": {
+        "first_seen": "2024-06-06T03:27:51Z",
+        "last_seen": "2024-06-06T17:15:10Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "1",
+            "23",
+            "389",
+            "48"
+        ],
+        "entity_types": [
+            "File",
+            "Ip",
+            "MailCluster",
+            "MailMessage",
+            "Mailbox",
+            "Url",
+            "User"
+        ],
+        "evidence_roles": [
+            "Impacted",
+            "Related"
+        ],
+        "detector_ids": [
+            "1",
+            "35",
+            "377",
+            "66"
+        ],
+        "alert_ids": [
+            "1008",
+            "1011",
+            "1019",
+            "1031",
+            "1032",
+            "1047",
+            "1054",
+            "1059",
+            "108633",
+            "1088",
+            "1090",
+            "1096",
+            "1097",
+            "11879",
+            "15600",
+            "16150",
+            "1683",
+            "1684",
+            "1843",
+            "1993",
+            "2053",
+            "2388",
+            "2558",
+            "2607",
+            "26142",
+            "2680",
+            "3022",
+            "3212",
+            "3231",
+            "3341",
+            "3367",
+            "3531",
+            "3618",
+            "3619",
+            "3968",
+            "4017",
+            "41262",
+            "4256",
+            "4514",
+            "4803",
+            "4804",
+            "5099",
+            "5541",
+            "61548",
+            "6193",
+            "663694",
+            "72208",
+            "7326",
+            "753",
+            "8028",
+            "804",
+            "824",
+            "8407",
+            "859",
+            "865",
+            "919",
+            "9201",
+            "9203",
+            "9204",
+            "925",
+            "968",
+            "9687",
+            "9688",
+            "995"
+        ]
+    },
+    "rule_descriptions": [
+        "Activity associated with password guessing.",
+        "Activity associated with phishing.",
+        "Activity associated with spearphishing links.",
+        "Alert associated with an initial access technique.",
+        "Alert associated with credential access."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}
