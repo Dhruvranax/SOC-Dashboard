@@ -1,0 +1,94 @@
+{
+    "report_generated_at": "2026-11-23T17:00:48.258073+00:00",
+    "incident_id": "57",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 681,
+        "unique_alerts": 23,
+        "categories": [
+            "Impact",
+            "InitialAccess"
+        ],
+        "detection_rules": [
+            "Impact Activity",
+            "Initial Access Activity",
+            "Phishing Activity"
+        ],
+        "mitre_techniques": [
+            "T1566"
+        ]
+    },
+    "timeline": {
+        "first_seen": "2024-05-22T11:19:52Z",
+        "last_seen": "2024-06-13T23:06:52Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "1121",
+            "130",
+            "178",
+            "227",
+            "249",
+            "394",
+            "494",
+            "5",
+            "51",
+            "541",
+            "634",
+            "67",
+            "680",
+            "685",
+            "70",
+            "703",
+            "723",
+            "735",
+            "807",
+            "824"
+        ],
+        "entity_types": [
+            "Ip",
+            "MailCluster",
+            "MailMessage"
+        ],
+        "evidence_roles": [
+            "Related"
+        ],
+        "detector_ids": [
+            "12",
+            "6"
+        ],
+        "alert_ids": [
+            "150",
+            "163",
+            "1681",
+            "173",
+            "217",
+            "253",
+            "255",
+            "35041",
+            "577",
+            "583",
+            "595",
+            "603",
+            "613",
+            "62",
+            "633",
+            "654",
+            "720",
+            "76",
+            "77",
+            "80",
+            "844",
+            "92",
+            "972"
+        ]
+    },
+    "rule_descriptions": [
+        "Activity associated with phishing.",
+        "Alert associated with an initial access technique.",
+        "Alert associated with potential impact activity."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}

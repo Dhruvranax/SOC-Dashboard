@@ -1,0 +1,23 @@
+{
+  "input_file": "original.csv",
+  "rows_processed": 300000,
+  "matched_rows": 262749,
+  "incidents_detected": 76497,
+  "alerts_generated": 76497,
+  "severity_distribution": {
+    "Critical": 43031,
+    "High": 21179,
+    "Medium": 12287
+  },
+  "invalid_timestamps": 0,
+  "columns_detected": 46,
+  "timestamp_available": true,
+  "normalized_csv": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\normalized_upload.csv",
+  "incident_summary_csv": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\incident_reports\\incident_detection_summary.csv",
+  "alerts_csv": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\soc_alerts\\soc_alerts.csv",
+  "alerts_jsonl": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\soc_alerts\\soc_alerts.jsonl",
+  "alert_summary_json": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\soc_alerts\\alert_generation_summary.json",
+  "detailed_reports_dir": "D:\\Microsoft-SOC-Project\\backend\\storage\\analyses\\11e1c759-0de2-4de1-9c89-9584fb543488\\results\\incident_reports\\incident_*.json",
+  "score_interpretation": "Heuristic prioritization score, not probability of compromise.",
+  "detection_type": "Rule-based; no model training is performed."
+}

@@ -1,0 +1,90 @@
+{
+    "report_generated_at": "2026-11-25T10:36:51.451963+00:00",
+    "incident_id": "57",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 710,
+        "unique_alerts": 23,
+        "categories": [
+            "Impact",
+            "InitialAccess"
+        ],
+        "detection_rules": [
+            "Impact Activity",
+            "Initial Access Activity"
+        ],
+        "mitre_techniques": []
+    },
+    "timeline": {
+        "first_seen": "2024-05-22T06:51:57Z",
+        "last_seen": "2024-06-10T13:22:44Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "1121",
+            "130",
+            "178",
+            "2120",
+            "227",
+            "249",
+            "394",
+            "494",
+            "51",
+            "541",
+            "634",
+            "67",
+            "680",
+            "685",
+            "70",
+            "703",
+            "723",
+            "735",
+            "807",
+            "824"
+        ],
+        "entity_types": [
+            "Ip",
+            "Mailbox"
+        ],
+        "evidence_roles": [
+            "Impacted",
+            "Related"
+        ],
+        "detector_ids": [
+            "1155",
+            "12"
+        ],
+        "alert_ids": [
+            "150",
+            "1622916",
+            "163",
+            "1681",
+            "173",
+            "217",
+            "253",
+            "255",
+            "577",
+            "583",
+            "595",
+            "603",
+            "613",
+            "62",
+            "633",
+            "654",
+            "720",
+            "76",
+            "77",
+            "80",
+            "844",
+            "92",
+            "972"
+        ]
+    },
+    "rule_descriptions": [
+        "Alert associated with an initial access technique.",
+        "Alert associated with potential impact activity."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}

@@ -147,12 +147,21 @@ async def get_analysis(analysis_id: str):
     return _public_analysis(metadata)
 
 
+
 @router.get("/{analysis_id}/alerts")
 async def get_analysis_alerts(
     analysis_id: str,
-    limit: int = Query(default=200, ge=1, le=1000),
+    limit: int = Query(default=50, ge=1, le=200),
     offset: int = Query(default=0, ge=0),
+    severity: str | None = Query(default=None),
+    search: str | None = Query(
+        default=None,
+        min_length=1,
+        max_length=120,
+    ),
 ):
+    """Return a filtered page of alerts without loading the full file."""
+
     metadata = storage_service.read_analysis_metadata(analysis_id)
 
     if metadata is None:
@@ -181,19 +190,66 @@ async def get_analysis_alerts(
             detail="Alert output file was not found.",
         )
 
-    alerts = []
+    normalized_severity = (
+        severity.strip().casefold() if severity else None
+    )
+    search_term = search.strip().casefold() if search else None
+
+    total = 0
+    page = []
 
     with alert_file.open("r", encoding="utf-8") as file:
         for line in file:
-            if line.strip():
-                alerts.append(json.loads(line))
+            if not line.strip():
+                continue
+
+            alert = json.loads(line)
+
+            risk = alert.get("RiskAssessment", {})
+            detection = alert.get("DetectionSummary", {})
+
+            alert_severity = str(risk.get("Severity", ""))
+            incident_id = str(alert.get("IncidentID", ""))
+            alert_id = str(alert.get("AlertID", ""))
+
+            categories = " ".join(
+                str(value)
+                for value in detection.get("Categories", [])
+            )
+
+            techniques = " ".join(
+                str(value)
+                for value in detection.get("MITRETechniques", [])
+            )
+
+            if (
+                normalized_severity
+                and alert_severity.casefold() != normalized_severity
+            ):
+                continue
+
+            if search_term:
+                searchable = (
+                    f"{incident_id} {alert_id} "
+                    f"{categories} {techniques}"
+                ).casefold()
+
+                if search_term not in searchable:
+                    continue
+
+            if total >= offset and len(page) < limit:
+                page.append(alert)
+
+            total += 1
 
     return {
         "analysis_id": analysis_id,
-        "total": len(alerts),
+        "total": total,
         "limit": limit,
         "offset": offset,
-        "alerts": alerts[offset:offset + limit],
+        "severity": severity,
+        "search": search,
+        "alerts": page,
     }
 
 

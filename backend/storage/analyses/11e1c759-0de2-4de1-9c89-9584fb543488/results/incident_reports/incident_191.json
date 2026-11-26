@@ -1,0 +1,85 @@
+{
+    "report_generated_at": "2026-11-25T10:36:51.441105+00:00",
+    "incident_id": "191",
+    "severity": "Critical",
+    "risk_score": 100,
+    "status": "Requires analyst investigation",
+    "summary": {
+        "matched_records": 723,
+        "unique_alerts": 23,
+        "categories": [
+            "Impact",
+            "InitialAccess"
+        ],
+        "detection_rules": [
+            "Impact Activity",
+            "Initial Access Activity",
+            "Phishing Activity"
+        ],
+        "mitre_techniques": [
+            "T1566"
+        ]
+    },
+    "timeline": {
+        "first_seen": "2024-05-21T13:17:47Z",
+        "last_seen": "2024-06-05T10:31:54Z"
+    },
+    "evidence": {
+        "alert_titles": [
+            "1338",
+            "180",
+            "41",
+            "427",
+            "5",
+            "51",
+            "52",
+            "67",
+            "745",
+            "817",
+            "84",
+            "859"
+        ],
+        "entity_types": [
+            "Ip",
+            "MailMessage"
+        ],
+        "evidence_roles": [
+            "Related"
+        ],
+        "detector_ids": [
+            "12",
+            "6"
+        ],
+        "alert_ids": [
+            "137",
+            "145",
+            "1582",
+            "213",
+            "273",
+            "281",
+            "37",
+            "446",
+            "50",
+            "576",
+            "587",
+            "63",
+            "640",
+            "642",
+            "65981",
+            "668",
+            "689",
+            "760",
+            "775",
+            "78",
+            "813",
+            "86",
+            "914"
+        ]
+    },
+    "rule_descriptions": [
+        "Activity associated with phishing.",
+        "Alert associated with an initial access technique.",
+        "Alert associated with potential impact activity."
+    ],
+    "analyst_recommendation": "Review the associated alerts and supporting evidence. Validate the affected entities, timestamps, and MITRE techniques before confirming malicious activity."
+}
