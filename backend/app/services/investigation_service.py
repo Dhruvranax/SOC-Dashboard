@@ -419,3 +419,33 @@ def add_note(
             connection,
             updated_investigation,
         )
+def list_investigations(analysis_id: str) -> list[dict]:
+    """
+    Return all existing investigations for a completed analysis.
+
+    This function does not create investigations for alerts that have
+    not already been opened by an analyst.
+    """
+    metadata = storage_service.read_analysis_metadata(analysis_id)
+
+    if metadata is None:
+        raise ValueError("Analysis not found.")
+
+    if metadata.get("status") != "completed":
+        raise ValueError("Analysis is not completed.")
+
+    with _connect() as connection:
+        investigations = connection.execute(
+            """
+            SELECT *
+            FROM investigations
+            WHERE analysis_id = ?
+            ORDER BY updated_at DESC, id DESC
+            """,
+            (analysis_id,),
+        ).fetchall()
+
+        return [
+            _read_investigation(connection, investigation)
+            for investigation in investigations
+        ]

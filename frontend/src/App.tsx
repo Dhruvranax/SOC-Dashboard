@@ -69,7 +69,34 @@ interface AlertsResponse {
   search: string | null
   alerts: Alert[]
 }
+type InvestigationStatus =
+  | 'New'
+  | 'In Progress'
+  | 'Escalated'
+  | 'Resolved'
 
+interface InvestigationNote {
+  id: number
+  note: string
+  created_at: string
+}
+
+interface InvestigationActivity {
+  id: number
+  action: string
+  details: string
+  created_at: string
+}
+
+interface Investigation {
+  analysis_id: string
+  alert_id: string
+  status: InvestigationStatus
+  created_at: string
+  updated_at: string
+  notes: InvestigationNote[]
+  activity: InvestigationActivity[]
+}
 interface DatasetInspection {
   [key: string]: unknown
 }
@@ -176,11 +203,191 @@ function App() {
   const [alerts, setAlerts] = useState<Alert[]>([])
 
   const [alertTotal, setAlertTotal] = useState(0)
+  const [investigations, setInvestigations] = useState<Investigation[]>([])
+  const [selectedInvestigation, setSelectedInvestigation] =
+    useState<Investigation | null>(null)
+
+  const [investigationsLoading, setInvestigationsLoading] = useState(false)
+  const [investigationLoading, setInvestigationLoading] = useState(false)
+  const [savingNote, setSavingNote] = useState(false)
+  const [updatingStatus, setUpdatingStatus] = useState(false)
+
+  const [noteDraft, setNoteDraft] = useState('')
   const [offset, setOffset] = useState(0)
   const [severity, setSeverity] = useState('')
   const [search, setSearch] = useState('')
 
   const [loading, setLoading] = useState(true)
+  const loadInvestigations = useCallback(async () => {
+    if (!selectedAnalysisId) {
+      setInvestigations([])
+      setSelectedInvestigation(null)
+      return
+    }
+
+    setInvestigationsLoading(true)
+
+    try {
+      const response = await fetch(
+        `${API_BASE}/api/analyses/${selectedAnalysisId}/investigations`,
+      )
+
+      const data = await readResponse(response)
+
+      if (!response.ok) {
+        throw new Error(
+          getApiError(data, 'Could not load investigations.'),
+        )
+      }
+
+      const records = data as Investigation[]
+
+      setInvestigations(records)
+
+      setSelectedInvestigation((current) => {
+        if (!current) return null
+
+        return (
+          records.find(
+            (item) => item.alert_id === current.alert_id,
+          ) ?? null
+        )
+      })
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not load investigations.',
+      )
+    } finally {
+      setInvestigationsLoading(false)
+    }
+  }, [selectedAnalysisId])
+
+
+  async function openInvestigation(alertId: string) {
+    if (!selectedAnalysisId || !alertId) return
+
+    setInvestigationLoading(true)
+    setError('')
+
+    try {
+      const response = await fetch(
+        `${API_BASE}/api/analyses/${selectedAnalysisId}/alerts/${encodeURIComponent(alertId)}/investigation`,
+      )
+
+      const data = await readResponse(response)
+
+      if (!response.ok) {
+        throw new Error(
+          getApiError(data, 'Could not open investigation.'),
+        )
+      }
+
+      setSelectedInvestigation(data as Investigation)
+      setNoteDraft('')
+      setPage('Investigations')
+
+      await loadInvestigations()
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not open investigation.',
+      )
+    } finally {
+      setInvestigationLoading(false)
+    }
+  }
+
+
+  async function handleStatusChange(status: InvestigationStatus) {
+    if (!selectedInvestigation || updatingStatus) return
+
+    setUpdatingStatus(true)
+    setError('')
+
+    try {
+      const { analysis_id, alert_id } = selectedInvestigation
+
+      const response = await fetch(
+        `${API_BASE}/api/analyses/${analysis_id}/alerts/${encodeURIComponent(alert_id)}/investigation/status`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ status }),
+        },
+      )
+
+      const data = await readResponse(response)
+
+      if (!response.ok) {
+        throw new Error(
+          getApiError(data, 'Could not update investigation status.'),
+        )
+      }
+
+      setSelectedInvestigation(data as Investigation)
+      await loadInvestigations()
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not update investigation status.',
+      )
+    } finally {
+      setUpdatingStatus(false)
+    }
+  }
+
+
+  async function handleAddNote() {
+    if (!selectedInvestigation || !noteDraft.trim() || savingNote) {
+      return
+    }
+
+    setSavingNote(true)
+    setError('')
+
+    try {
+      const { analysis_id, alert_id } = selectedInvestigation
+
+      const response = await fetch(
+        `${API_BASE}/api/analyses/${analysis_id}/alerts/${encodeURIComponent(alert_id)}/investigation/notes`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            note: noteDraft.trim(),
+          }),
+        },
+      )
+
+      const data = await readResponse(response)
+
+      if (!response.ok) {
+        throw new Error(
+          getApiError(data, 'Could not save investigation note.'),
+        )
+      }
+
+      setSelectedInvestigation(data as Investigation)
+      setNoteDraft('')
+      await loadInvestigations()
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Could not save investigation note.',
+      )
+    } finally {
+      setSavingNote(false)
+    }
+  }
   const [alertsLoading, setAlertsLoading] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [inspecting, setInspecting] = useState(false)
@@ -258,7 +465,7 @@ function App() {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [setError])
 
   const loadAlerts = useCallback(async () => {
     if (!selectedAnalysisId) {
@@ -303,17 +510,34 @@ function App() {
     } finally {
       setAlertsLoading(false)
     }
-  }, [selectedAnalysisId, severity, search, offset])
+  }, [selectedAnalysisId, severity, search, offset, setError])
 
   useEffect(() => {
-    void loadAnalyses()
+    const timeoutId = window.setTimeout(() => {
+      void loadAnalyses()
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
   }, [loadAnalyses])
 
   useEffect(() => {
     if (page === 'Alerts') {
-      void loadAlerts()
+      const timeoutId = window.setTimeout(() => {
+        void loadAlerts()
+      }, 0)
+
+      return () => window.clearTimeout(timeoutId)
     }
   }, [page, loadAlerts])
+  useEffect(() => {
+    if (page === 'Investigations') {
+      const timeoutId = window.setTimeout(() => {
+        void loadInvestigations()
+      }, 0)
+
+      return () => window.clearTimeout(timeoutId)
+    }
+  }, [page, loadInvestigations])
 
   function changePage(nextPage: Page) {
     setPage(nextPage)
@@ -972,6 +1196,7 @@ function App() {
                           <th>FIRST SEEN</th>
                           <th>MATCHED RECORDS</th>
                           <th>TECHNIQUES</th>
+                          <th>ACTION</th>
                         </tr>
                       </thead>
 
@@ -1025,6 +1250,20 @@ function App() {
                                   ? techniques.join(', ')
                                   : '—'}
                               </td>
+                              <td>
+                                <button
+                                  className="text-button"
+                                  onClick={() => {
+                                    if (alert.AlertID) {
+                                      void openInvestigation(alert.AlertID)
+                                    }
+                                  }}
+                                  disabled={!alert.AlertID || investigationLoading}
+                                >
+                                  Investigate →
+                                </button>
+                              </td>
+
                             </tr>
                           )
                         })}
@@ -1280,11 +1519,236 @@ function App() {
 
           {/* INVESTIGATIONS */}
           {page === 'Investigations' && (
-            <Placeholder
-              eyebrow="SECURITY OPERATIONS / CASE MANAGEMENT"
-              title="Investigations"
-              description="Incident investigation and analyst case management will be developed next."
-            />
+            <section>
+              <div className="page-heading">
+                <div>
+                  <div className="eyebrow">
+                    SECURITY OPERATIONS / CASE MANAGEMENT
+                  </div>
+
+                  <h1>Investigations</h1>
+
+                  <p className="page-description">
+                    Track alert investigations, document findings and manage case status.
+                  </p>
+                </div>
+
+                <button
+                  className="secondary-button"
+                  onClick={() => void loadInvestigations()}
+                  disabled={investigationsLoading}
+                >
+                  {investigationsLoading ? 'Refreshing...' : 'Refresh cases'}
+                </button>
+              </div>
+
+              {!selectedAnalysisId ? (
+                <div className="empty-state">
+                  Select a completed analysis to view its investigations.
+                </div>
+              ) : (
+                <>
+                  <div className="analysis-selector">
+                    <label>ACTIVE ANALYSIS</label>
+                    <strong>
+                      {selectedAnalysis?.filename ?? selectedAnalysisId}
+                    </strong>
+                  </div>
+
+                  <div className="investigation-summary">
+                    <div>
+                      <span>TOTAL CASES</span>
+                      <strong>{investigations.length}</strong>
+                    </div>
+
+                    <div>
+                      <span>NEW</span>
+                      <strong>
+                        {investigations.filter((item) => item.status === 'New').length}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>IN PROGRESS</span>
+                      <strong>
+                        {investigations.filter((item) => item.status === 'In Progress').length}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>ESCALATED</span>
+                      <strong>
+                        {investigations.filter((item) => item.status === 'Escalated').length}
+                      </strong>
+                    </div>
+                  </div>
+
+                  <div className="panel investigation-panel">
+                    <div className="panel-heading">
+                      <div>
+                        <div className="eyebrow">CASE MANAGEMENT</div>
+                        <h2>Investigation queue</h2>
+                      </div>
+
+                      <span className="panel-caption">
+                        {investigations.length} CASES
+                      </span>
+                    </div>
+
+                    {investigationsLoading ? (
+                      <div className="empty-state">Loading investigations...</div>
+                    ) : investigations.length === 0 ? (
+                      <div className="empty-state">
+                        No investigations exist for this analysis yet.
+                        Open an alert and select Investigate to create a case.
+                      </div>
+                    ) : (
+                      <div className="table-scroll">
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>ALERT ID</th>
+                              <th>STATUS</th>
+                              <th>NOTES</th>
+                              <th>LAST UPDATED</th>
+                              <th>ACTION</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {investigations.map((item) => (
+                              <tr key={item.alert_id}>
+                                <td className="mono">{item.alert_id}</td>
+
+                                <td>
+                                  <span className={`status-label ${item.status === 'Resolved'
+                                    ? 'completed'
+                                    : item.status === 'Escalated'
+                                      ? 'failed'
+                                      : 'pending'
+                                    }`}>
+                                    {item.status}
+                                  </span>
+                                </td>
+
+                                <td>{item.notes.length}</td>
+
+                                <td>{formatDate(item.updated_at)}</td>
+
+
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+
+                  {selectedInvestigation && (
+                    <div className="panel investigation-detail">
+                      <div className="panel-heading">
+                        <div>
+                          <div className="eyebrow">INVESTIGATION DETAIL</div>
+                          <h2>{selectedInvestigation.alert_id}</h2>
+                        </div>
+
+                        <span className="panel-caption">
+                          {selectedInvestigation.analysis_id.slice(0, 8)}
+                        </span>
+                      </div>
+
+                      <div className="investigation-status-control">
+                        <label htmlFor="investigation-status">
+                          CASE STATUS
+                        </label>
+
+                        <select
+                          id="investigation-status"
+                          value={selectedInvestigation.status}
+                          disabled={updatingStatus}
+                          onChange={(event) =>
+                            void handleStatusChange(
+                              event.target.value as InvestigationStatus,
+                            )
+                          }
+                        >
+                          <option value="New">New</option>
+                          <option value="In Progress">In Progress</option>
+                          <option value="Escalated">Escalated</option>
+                          <option value="Resolved">Resolved</option>
+                        </select>
+
+                        {updatingStatus && <span>Updating...</span>}
+                      </div>
+
+                      <div className="investigation-meta">
+                        <span>Created: {formatDate(selectedInvestigation.created_at)}</span>
+                        <span>Updated: {formatDate(selectedInvestigation.updated_at)}</span>
+                      </div>
+
+                      <div className="investigation-section">
+                        <h3>Analyst notes</h3>
+
+                        <textarea
+                          value={noteDraft}
+                          onChange={(event) => setNoteDraft(event.target.value)}
+                          placeholder="Document investigation findings, evidence or actions..."
+                          maxLength={5000}
+                          rows={4}
+                        />
+
+                        <div className="note-actions">
+                          <span>{noteDraft.length}/5000 characters</span>
+
+                          <button
+                            className="primary-button"
+                            onClick={() => void handleAddNote()}
+                            disabled={!noteDraft.trim() || savingNote}
+                          >
+                            {savingNote ? 'Saving...' : 'Add note'}
+                          </button>
+                        </div>
+
+                        {selectedInvestigation.notes.length === 0 ? (
+                          <div className="empty-state">
+                            No analyst notes have been recorded.
+                          </div>
+                        ) : (
+                          <div className="investigation-record-list">
+                            {selectedInvestigation.notes.map((note) => (
+                              <article key={note.id} className="investigation-record">
+                                <p>{note.note}</p>
+                                <span>{formatDate(note.created_at)}</span>
+                              </article>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="investigation-section">
+                        <h3>Activity history</h3>
+
+                        {selectedInvestigation.activity.length === 0 ? (
+                          <div className="empty-state">
+                            No activity recorded yet.
+                          </div>
+                        ) : (
+                          <div className="investigation-record-list">
+                            {selectedInvestigation.activity.map((activity) => (
+                              <article key={activity.id} className="investigation-record">
+                                <strong>{activity.action.replaceAll('_', ' ')}</strong>
+                                <p>{activity.details}</p>
+                                <span>{formatDate(activity.created_at)}</span>
+                              </article>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </section>
           )}
 
           {/* REPORTS */}
@@ -1470,6 +1934,8 @@ function AnalysisTable({
               <td>
                 {formatDate(analysis.created_at)}
               </td>
+
+
             </tr>
           ))}
         </tbody>

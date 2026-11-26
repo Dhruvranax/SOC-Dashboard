@@ -196,3 +196,43 @@ def test_investigation_rejects_unknown_alert(client):
     assert response.json()["detail"] == (
         "Alert not found in this analysis."
     )
+def test_list_investigations_returns_empty_list(client):
+    response = client.get(
+        f"/api/analyses/{ANALYSIS_ID}/investigations"
+    )
+
+    assert response.status_code == 200
+    assert response.json() == []
+
+
+def test_list_investigations_returns_existing_cases(client):
+    # Creating an investigation by opening an alert.
+    client.get(investigation_url())
+
+    # Updating its status.
+    client.patch(
+        investigation_url() + "/status",
+        json={"status": "In Progress"},
+    )
+
+    response = client.get(
+        f"/api/analyses/{ANALYSIS_ID}/investigations"
+    )
+
+    assert response.status_code == 200
+
+    data = response.json()
+
+    assert len(data) == 1
+    assert data[0]["analysis_id"] == ANALYSIS_ID
+    assert data[0]["alert_id"] == ALERT_ID
+    assert data[0]["status"] == "In Progress"
+
+
+def test_list_investigations_rejects_unknown_analysis(client):
+    response = client.get(
+        "/api/analyses/unknown-analysis/investigations"
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Analysis not found."

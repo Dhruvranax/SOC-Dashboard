@@ -55,7 +55,22 @@ def _handle_service_error(error: ValueError) -> None:
         detail=message,
     ) from error
 
+@router.get(
+    "/{analysis_id}/investigations",
+)
+async def list_investigations(
+    analysis_id: str,
+):
+    """
+    List all existing investigations for an analysis.
+    """
+    try:
+        return investigation_service.list_investigations(
+            analysis_id=analysis_id,
+        )
 
+    except ValueError as error:
+        _handle_service_error(error)
 @router.get(
     "/{analysis_id}/alerts/{alert_id}/investigation",
 )
